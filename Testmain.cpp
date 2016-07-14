@@ -1,7 +1,8 @@
-#include "Log.hpp"
+#include "Global.hpp"
 #include "IPAddress.hpp"
+#include "ProxyTable.hpp"
 
-#include <stdlib.h>
+#include <string>
 
 
 using namespace std;
@@ -9,18 +10,45 @@ using namespace std;
 main (int argv, char** argc)
 {
 
+Log::Instance()->LogDebug("This is a test of the logging object");
+
+cout << "Tried to log to syslog" << endl;
+
 IPAddress* ip = new IPAddress("127.0.0.1");
 
-cout << "IP test: set 127.0.0.1, got " << ip->str() << std::endl;
+cout << "IP test: set 127.0.0.1, got " << ip->str() << endl;
 
 ip->setPort(3000);
 
-cout << "IP test: set port 3000, got " << ip->port() << std::endl;
-	
-Log::Instance()->LogDebug("This is a test of the logging object");
+cout << "IP test: set port 3000, got " << ip->port() << endl;
 
-cout << "Tried to log to syslog" << std::endl;
+IPAddress* ip2 = new IPAddress(*(ip->getIP()));
+
+ip2->setIP("127.0.0.2");
+
+cout << "IP2 test: set 127.0.0.2, got " << ip2->str() << endl;
+
+ip2->setPort(3001);
+
+cout << "IP2 test: set port 3001, got " << ip2->port() << endl;
+
+ProxyTable* testTable = new ProxyTable;
+
+cout << "Created new empty proxy table" << endl;
+
+cout << "Empty table size is " << testTable->space() << endl;
+
+int tableIndex = testTable->addEntry(ip, ip2);
+
+cout << "Added table entry # " << tableIndex << endl;
+
+string temp = testTable->listEntry(tableIndex);
+
+cout << "Got table entry " << tableIndex << " of " << temp << endl;
+
+cout << "Table has " << testTable->space() << " entries left" << endl;
 
 exit;
 
 }
+

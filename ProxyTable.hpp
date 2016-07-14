@@ -10,7 +10,7 @@ class ProxyEntry {
 public:
 	// ctor/dtor
 	ProxyEntry () { m_client.Zero(); m_server.Zero(); m_valid = false; }
-	ProxyEntry (IPAddress newclient, IPAddress newserver)  : m_client(newclient), m_server(newserver), m_valid(true) {}
+	ProxyEntry (IPAddress* newclient, IPAddress* newserver)  : m_client(*(newclient->getIP())), m_server(*(newserver->getIP())), m_valid(true) {}
 	~ProxyEntry () {}
 
 	// methods
@@ -36,7 +36,7 @@ public:
 	~ProxyTable ();
 
 	// methods
-	int addEntry (IPAddress client, IPAddress server);
+	int addEntry (IPAddress* client, IPAddress* server);
 	bool removeEntry (int index);
 	std::string listEntry(int index);
 	int space();

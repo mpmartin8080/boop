@@ -1,6 +1,8 @@
 #if !defined LOGGING_HPP
 #define LOGGING_HPP
 
+#include "Global.hpp"
+
 #include "log4cpp/Category.hh"
 #include "log4cpp/Appender.hh"
 #include "log4cpp/SyslogAppender.hh"

@@ -2,7 +2,13 @@ CC=g++
 CFLAGS=-I.
 DEPS = 	Global.hpp 
 
-OBJ = 	Global.o Log.o Testmain.o IPAddress.o ProxyTable.o
+OBJ = 	Global.o \
+	Log.o \
+	Testmain.o \
+	IPAddress.o \
+	ProxyTable.o \
+	UDPSocket.o \
+	PacketHandler.o
 
 LIBS=-lm -llog4cpp -lpthread -lonion_static -lpam -lgnutls -lgcrypt
 

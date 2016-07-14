@@ -1,5 +1,5 @@
-#if !defined IPADDRESS_HPP
-#define IPADDRESS_HPP
+#ifndef IP_ADDRESS_HPP
+#define IP_ADDRESS_HPP
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -14,7 +14,7 @@ public:
 	IPAddress ();
 	IPAddress (string address);
 	IPAddress (sockaddr_storage existingip);
-	~IPAddress() { if (m_socketaddress) delete m_socketaddress; }
+	~IPAddress() {} 
 
 	// methods
 	string str();
@@ -36,5 +36,5 @@ private:
 };
 
 
-#endif // IPADDRESS_HPP
+#endif // IP_ADDRESS_HPP
 

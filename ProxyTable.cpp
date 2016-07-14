@@ -1,5 +1,6 @@
 #include "ProxyTable.hpp"
 #include <sstream>
+#include <iostream>
 
 
 ProxyTable::ProxyTable ()
@@ -10,22 +11,27 @@ ProxyTable::ProxyTable ()
 
 ProxyTable::~ProxyTable ()
 {
-	for (int i = 0; i < MAXTABLESIZE; i++)
-		delete (m_table[i]);
+//	for (int i = 0; i < MAXTABLESIZE; i++)
+//		delete (m_table[i]);
 }
 
-int ProxyTable::addEntry (IPAddress client, IPAddress server)
+int ProxyTable::addEntry (IPAddress* client, IPAddress* server)
 {
 	for (int i = 0; i < MAXTABLESIZE; i++)
 	{
 		if (!m_table[i]->isValid())
 		{
-			m_table[i]->setClient(client);
-			m_table[i]->setServer(server);
+			std::cout << "Found empty table slot at index " << i << std::endl;
+			m_table[i]->setClient(*client);
+			std::cout << "Set client IP" << std::endl;
+			m_table[i]->setServer(*server);
+			std::cout << "Set server IP" << std::endl;
 			m_table[i]->setValid(true);
+			std::cout << "Set entry to valid" << std::endl;
 			return i;
 		}
 	}
+	std::cout << "Proxy table is full" << std::endl;
 	return -1;
 }
 
@@ -45,11 +51,16 @@ bool ProxyTable::removeEntry (int index)
 std::string ProxyTable::listEntry(int index)
 {
 	if (!m_table[index]->isValid())
-		return "";
-	std::stringstream tempstr;
-	tempstr << m_table[index]->getClient().str() << ":" << m_table[index]->getClient().port() << " | ";
-	tempstr << m_table[index]->getServer().str() << ":" << m_table[index]->getServer().port();
-	return tempstr.str();
+		return "Invalid";
+	else
+	{
+		IPAddress clientip = m_table[index]->getClient();
+		IPAddress serverip = m_table[index]->getServer();
+		std::stringstream tempstr;
+		tempstr << clientip.str() << ":" << clientip.port() << " | ";
+		tempstr << serverip.str() << ":"  << serverip.port();
+		return tempstr.str();
+	}
 }
 
 int ProxyTable::space()

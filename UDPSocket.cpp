@@ -18,3 +18,24 @@ int UDPSocket::Bind (in_port_t port)
 	return bind (this->m_sock, (struct sockaddr *)&serveraddr, sizeof(serveraddr));
 }
 
+
+int UDPSocket::receive (void * buf, IPAddress expected)
+{
+	ADDRSTRUCT retaddr;
+	socklen_t addrlen = ADDRSIZE;
+
+	ssize_t recvlen = recvfrom(m_sock, buf, MTU, 0, (struct sockaddr *)&retaddr, &addrlen);
+
+	IPAddress tempaddr(*((sockaddr_storage *)&retaddr));
+
+	if ((tempaddr.port() != expected.port()) or (tempaddr.getIP() != expected.getIP()))
+		return -1;
+	else
+		return (int)recvlen;
+}
+
+int UDPSocket::send (void * buf, int size, IPAddress srvaddr)
+{
+	return (int)sendto (m_sock, buf, (size_t)size, 0,  (struct sockaddr *)&srvaddr, sizeof(srvaddr));
+}
+

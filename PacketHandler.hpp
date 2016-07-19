@@ -5,21 +5,27 @@
 #include "IPAddress.hpp"
 #include "UDPSocket.hpp"
 
+#include <thread>
+
 // Base class for both inbound and outbound packet handling
 
 class PacketHandler
 {
 public:
 	// ctor/dtor
-	PacketHandler(int inport);
+	PacketHandler(int inport, IPAddress srcaddr, IPAddress dstaddr);
 	~PacketHandler();
 
-	// methods
-	PassDGram (ByteType* begin, ByteType* end);
-	
 private:
+	// methods
+	int passDGram (ByteType* buf, size_t size);
+	void* receiveHandler ();
+
 	// members
 	UDPSocket m_insocket, m_outsocket;
+	IPAddress m_srcaddr, m_dstaddr;
+	std::thread m_thread;
+	ByteType m_packetbuf[MTU];
 	
 };
 

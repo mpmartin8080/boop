@@ -4,6 +4,7 @@
 // Wrapper for standard BSD UDP socket
 
 #include "Global.hpp"
+#include "IPAddress.hpp"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -25,6 +26,9 @@ public:
 
 	// methods
 	int Bind (in_port_t port);
+	int receive (void * buf, IPAddress expected);
+	int send (void * buf, int size, IPAddress srvaddr);
+	int Close() { return close(m_sock); }
 
 private:
 	// members
@@ -32,3 +36,4 @@ private:
 };
 
 #endif // UDPSOCKET_HPP
+

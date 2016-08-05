@@ -3,74 +3,39 @@
 #include <iostream>
 
 
-ProxyTable::ProxyTable ()
+
+void ProxyTable::addEntry (IPAddress client, IPAddress server)
 {
-	for (int i = 0; i < MAXTABLESIZE; i++)
-		m_table[i] = new ProxyEntry();
+	m_table.emplace(client,server);
+	m_table.emplace(server,client);	
 }
 
-ProxyTable::~ProxyTable ()
+bool ProxyTable::removeEntry (IPAddress* key)
 {
-//	for (int i = 0; i < MAXTABLESIZE; i++)
-//		delete (m_table[i]);
+	if (m_table.erase(m_table[*key]) != 1)
+		Log::Instance()->LogError("Unable to erase reverse table entry");
+	if (m_table.erase(*key) != 1)
+		Log::Instance()->LogError("Unable to erase table entry");
 }
 
-int ProxyTable::addEntry (IPAddress* client, IPAddress* server)
+void ProxyTable::dumpTable()
 {
-	for (int i = 0; i < MAXTABLESIZE; i++)
+	std::cout << "Table size: " << m_table.size() << std::endl;
+	std::cout << "First IP:First Port | Second IP:Second Port" << std::endl;
+
+	for (const auto &pair : m_table)
 	{
-		if (!m_table[i]->isValid())
-		{
-			std::cout << "Found empty table slot at index " << i << std::endl;
-			m_table[i]->setClient(*client);
-			std::cout << "Set client IP" << std::endl;
-			m_table[i]->setServer(*server);
-			std::cout << "Set server IP" << std::endl;
-			m_table[i]->setValid(true);
-			std::cout << "Set entry to valid" << std::endl;
-			return i;
-		}
+		std::cout << pair.first.str() << ":" << pair.first.port() << " | ";
+		std::cout << pair.second.str() << ":"  << pair.second.port() << std::endl;
 	}
-	std::cout << "Proxy table is full" << std::endl;
-	return -1;
 }
 
-bool ProxyTable::removeEntry (int index)
+IPAddress ProxyTable::find(IPAddress srcip)
 {
-	if (m_table[index]->isValid())
-	{
-		m_table[index]->getClient().Zero();
-		m_table[index]->getServer().Zero();
-		m_table[index]->setValid(false);
-		return true;
-	}
+	std::unordered_map<IPAddress, IPAddress>::const_iterator dstip = m_table.find(srcip);
+
+	if (dstip == m_table.end())
+		return IPAddress ("0.0.0.0");
 	else
-		return false;
+		return dstip->second;
 }
-
-std::string ProxyTable::listEntry(int index)
-{
-	if (!m_table[index]->isValid())
-		return "Invalid";
-	else
-	{
-		IPAddress clientip = m_table[index]->getClient();
-		IPAddress serverip = m_table[index]->getServer();
-		std::stringstream tempstr;
-		tempstr << clientip.str() << ":" << clientip.port() << " | ";
-		tempstr << serverip.str() << ":"  << serverip.port();
-		return tempstr.str();
-	}
-}
-
-int ProxyTable::space()
-{
-	int used = 0;
-	for (int i = 0; i < MAXTABLESIZE; i++)
-	{
-		if (m_table[i]->isValid())
-			used++;
-	}
-	return MAXTABLESIZE - used;
-}
-

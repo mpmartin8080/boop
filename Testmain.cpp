@@ -36,17 +36,12 @@ ProxyTable* testTable = new ProxyTable;
 
 cout << "Created new empty proxy table" << endl;
 
-cout << "Empty table size is " << testTable->space() << endl;
+cout << "Empty table size is " << testTable->size() << endl;
 
-int tableIndex = testTable->addEntry(ip, ip2);
+testTable->addEntry(*ip, *ip2);
 
-cout << "Added table entry # " << tableIndex << endl;
+testTable->dumpTable();
 
-string temp = testTable->listEntry(tableIndex);
-
-cout << "Got table entry " << tableIndex << " of " << temp << endl;
-
-cout << "Table has " << testTable->space() << " entries left" << endl;
 
 exit;
 

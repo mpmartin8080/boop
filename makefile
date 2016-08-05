@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-I. -std=c++11
+CFLAGS=-I. -std=c++11 -Wfatal-errors
 DEPS = 	Global.hpp 
 
 OBJ = 	Global.o \
@@ -8,7 +8,7 @@ OBJ = 	Global.o \
 	IPAddress.o \
 	ProxyTable.o \
 	UDPSocket.o \
-	PacketHandler.o
+	Demultiplexer.o
 
 LIBS=-lm -llog4cpp -lpthread -lonion_static -lpam -lgnutls -lgcrypt
 

@@ -26,8 +26,8 @@ public:
 
 	// methods
 	int Bind (in_port_t port);
-	int receive (void * buf, IPAddress expected);
-	int send (void * buf, int size, IPAddress srvaddr);
+	int receive (void * buf, IPAddress * srcaddr);
+	int send (ByteType * buf, int size, IPAddress srvaddr);
 	int Close() { return close(m_sock); }
 
 private:

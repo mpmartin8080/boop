@@ -27,7 +27,7 @@ void* PacketHandler::receiveHandler()
 
 	for ( ;; )
 	{
-		int recvd = this->m_insocket.receive (this->m_packetbuf, this->m_srcaddr);
+		int recvd = this->m_insocket.receive (&this->m_packetbuf, this->m_srcaddr);
 		if (recvd < 1)
 		{
 			Log::Instance()->LogError("Bad read on inbound socket");

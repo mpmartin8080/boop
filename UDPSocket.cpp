@@ -19,22 +19,22 @@ int UDPSocket::Bind (in_port_t port)
 }
 
 
-int UDPSocket::receive (void * buf, IPAddress expected)
+int UDPSocket::receive (void * buf, IPAddress * srcaddr)
 {
-	ADDRSTRUCT retaddr;
-	socklen_t addrlen = ADDRSIZE;
+	sockaddr_storage retaddr;
+	socklen_t addrlen = sizeof (sockaddr_storage);
 
 	ssize_t recvlen = recvfrom(m_sock, buf, MTU, 0, (struct sockaddr *)&retaddr, &addrlen);
 
-	IPAddress tempaddr(*((sockaddr_storage *)&retaddr));
-
-	if ((tempaddr.port() != expected.port()) or (tempaddr.getIP() != expected.getIP()))
-		return -1;
-	else
+	if (recvlen < 1)
 		return (int)recvlen;
+
+	srcaddr->setIP(retaddr);
+	return (int)recvlen;
+
 }
 
-int UDPSocket::send (void * buf, int size, IPAddress srvaddr)
+int UDPSocket::send (ByteType * buf, int size, IPAddress srvaddr)
 {
 	return (int)sendto (m_sock, buf, (size_t)size, 0,  (struct sockaddr *)&srvaddr, sizeof(srvaddr));
 }

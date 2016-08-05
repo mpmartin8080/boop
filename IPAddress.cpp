@@ -26,7 +26,7 @@ IPAddress::IPAddress (sockaddr_storage existingip)
 	*m_socketaddress = existingip;
 }
 
-string IPAddress::str()
+string IPAddress::str() const
 {
 
 #ifdef USEIPV6
@@ -63,3 +63,10 @@ void IPAddress::Zero()
 	memset(m_socketaddress, 0, sizeof(sockaddr_storage));
 }
 
+IPAddress& IPAddress::operator= (const IPAddress& other)
+{
+	if (this == &other)
+		return *this;
+
+	this->Zero();
+}

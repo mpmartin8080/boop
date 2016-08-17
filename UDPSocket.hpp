@@ -22,7 +22,7 @@ public:
 	// simplified ctor
 	UDPSocket () : m_sock (socket(FAMILY, SOCK_DGRAM, 0)) {};
 	// dtor
-	~UDPSocket () { close(m_sock); }
+	~UDPSocket () { Log::Instance()->LogDebug("UDPSocket dtor"); close(m_sock); }
 
 	// methods
 	int Bind (in_port_t port);

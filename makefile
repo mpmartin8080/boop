@@ -8,7 +8,8 @@ OBJ = 	Global.o \
 	IPAddress.o \
 	ProxyTable.o \
 	UDPSocket.o \
-	Demultiplexer.o
+	Demultiplexer.o \
+	Server.o
 
 LIBS=-lm -llog4cpp -lpthread -lonion_static -lpam -lgnutls -lgcrypt
 

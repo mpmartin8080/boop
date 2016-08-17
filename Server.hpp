@@ -12,25 +12,27 @@
 
 class Server
 {
+public:
         // ctor/dtor
         Server(int listenport);
-        ~Server() {};
+        ~Server();
 
 
         // methods
+	
 
-
-
+private:
         // members
-	UDPSocket permsocket;
+	UDPSocket m_permsocket;
 	ProxyTable m_proxytable;
-        Demultiplexer m_demux;
-        Multiplexer* m_muxtable[MAXTABLESIZE];
+        Demultiplexer* p_demux;
+        Multiplexer* ap_muxtable[MAXTABLESIZE];
 #ifdef TESTBUILD
 	TestController m_controller;
 #else
 	//Controller m_controller;
 #endif // TESTBUILD
+};
 
 
 #endif // SERVER_HPP

@@ -1,6 +1,7 @@
 #include "Global.hpp"
 #include "IPAddress.hpp"
 #include "ProxyTable.hpp"
+#include "Server.hpp"
 
 #include <string>
 
@@ -42,6 +43,11 @@ testTable->addEntry(*ip, *ip2);
 
 testTable->dumpTable();
 
+Server server(4000);
+
+for ( ; ; )
+{
+}
 
 exit;
 

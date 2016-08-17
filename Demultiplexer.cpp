@@ -2,6 +2,7 @@
 
 Demultiplexer::Demultiplexer (int listenport, UDPSocket * permsocket, ProxyTable * table) : m_listensocket(permsocket)
 {
+	Log::Instance()->LogDebug("Demultiplexer ctor");
 	if (table)
 		this->m_proxytable = table;
 	else
@@ -13,6 +14,7 @@ Demultiplexer::Demultiplexer (int listenport, UDPSocket * permsocket, ProxyTable
 
 Demultiplexer::~Demultiplexer()
 {
+	Log::Instance()->LogDebug("Demultiplexer dtor");
         this->m_listensocket->Close();
         this->m_thread.join();
 }

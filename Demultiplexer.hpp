@@ -9,6 +9,7 @@
 
 class Demultiplexer 
 {
+public:
 	// ctor/dtor
 	Demultiplexer (int listenport, UDPSocket* permsocket, ProxyTable * table);
 	~Demultiplexer ();
@@ -17,7 +18,7 @@ class Demultiplexer
 	int passDGram (ByteType* buf, int size, IPAddress dstaddr);
 	void * receiveHandler();
 
-
+private:
 	// member
 	UDPSocket* m_listensocket;
 	ProxyTable * m_proxytable;

@@ -4,7 +4,7 @@ DEPS = 	Global.hpp
 
 OBJ = 	Global.o \
 	Log.o \
-	Testmain.o \
+	Main.o \
 	IPAddress.o \
 	ProxyTable.o \
 	UDPSocket.o \

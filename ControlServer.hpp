@@ -3,13 +3,12 @@
 
 class ControlServer
 {
-	ControlServer();
-	~ControlServer();
-
+public:
+	ControlServer() {};
+	~ControlServer() {};
 	
-	
 
-
+};
 
 
 #endif // CONTROLSERVER_HPP

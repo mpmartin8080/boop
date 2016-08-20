@@ -22,6 +22,7 @@ public:
 	void setIP(sockaddr_storage newip);
 	bool setIP(string address);
 	void Zero();
+	static bool validateQuad(string address);
 #ifdef USEIPV6
 	void setPort (int port) { ((struct sockaddr_in6 *)m_socketaddress)->sin6_port = (in_port_t)port; }
 	in_port_t port() const { return (((struct sockaddr_in6 *)m_socketaddress)->sin6_port); }

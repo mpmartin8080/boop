@@ -70,3 +70,23 @@ IPAddress& IPAddress::operator= (const IPAddress& other)
 
 	this->Zero();
 }
+
+bool IPAddress::validateQuad(string address)
+{
+	int retcode;
+#ifdef USEIPV6
+	in6_addr tempaddr;
+	retcode = inet_pton(AF_INET6, address.c_str(), &tempaddr);
+#else
+	in_addr tempaddr;
+	retcode = inet_pton(AF_INET, address.c_str(), &tempaddr);	
+#endif // USEIPV6
+
+	if (retcode = 1)
+		return true;
+	else
+		return false;
+}
+
+
+

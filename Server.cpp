@@ -3,25 +3,18 @@
 #include <string>
 
 
-Server::Server(int listenport) : m_running(false)
+Server::Server(int listenport) : m_running(false) 
 {
-        char* logstr = new char[256];
 
-	sprintf(logstr, "Starting server instance on port %d", listenport);
-	Log::Instance()->LogDebug(std::string(logstr));
-
-	p_demux = new Demultiplexer (listenport, &m_permsocket, &m_proxytable);
-
+	p_demux =  std::make_shared<Demultiplexer>(listenport, &m_permsocket, &m_proxytable);
+	m_controller = std::make_shared<Controller>(this);
         this->m_thread = std::thread(&Server::ServerLoop, this);
-
 	this->m_running = true;
-
-	delete logstr;
 }
 
 Server::~Server()
 {
-	delete p_demux;
+	// Nothing yet
 }
 
 void Server::ServerLoop()
@@ -30,7 +23,7 @@ void Server::ServerLoop()
 
 	for ( ;; )
 	{
-		// Handle controller stuff
+		// TODO: Handle controller stuff
 	}
 
 	this->m_running = false;

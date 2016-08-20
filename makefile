@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-I. -std=c++11 -Wfatal-errors
+CFLAGS=-I. -std=c++11 -Wfatal-errors -D TESTBUILD
 DEPS = 	Global.hpp 
 
 OBJ = 	Global.o \
@@ -9,7 +9,9 @@ OBJ = 	Global.o \
 	ProxyTable.o \
 	UDPSocket.o \
 	Demultiplexer.o \
-	Server.o
+	Server.o \
+	Controller.o \
+	TestControlServer.o
 
 LIBS=-lm -llog4cpp -lpthread -lonion_static -lpam -lgnutls -lgcrypt
 

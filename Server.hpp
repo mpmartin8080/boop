@@ -6,11 +6,15 @@
 #include "Multiplexer.hpp"
 #include "UDPSocket.hpp"
 #include "ProxyTable.hpp"
+#include "Controller.hpp"
 
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <list>
 
+struct ControlCmd;
+class Controller;
 
 // Main server class that owns all other main resources
 
@@ -32,17 +36,14 @@ private:
         // members
 	UDPSocket m_permsocket;
 	ProxyTable m_proxytable;
-        Demultiplexer* p_demux;
+        std::shared_ptr<Demultiplexer> p_demux;
         Multiplexer* ap_muxtable[MAXTABLESIZE];
 	bool m_running;
 	std::thread m_thread;
 	std::mutex m_mutex;
 	std::condition_variable m_cv;
-#ifdef TESTBUILD
-	TestController m_controller;
-#else
-	//Controller m_controller;
-#endif // TESTBUILD
+	std::shared_ptr<Controller> m_controller;
+	std::list<ControlCmd> m_cmdqueue;
 };
 
 
